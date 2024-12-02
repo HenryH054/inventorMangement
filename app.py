@@ -10,13 +10,17 @@ col1, col2 = st.columns(2)
 with col1:
     model = st.text_input("Model Number")
 with col2:
-    sn = st.text_input("Serial Number")
-if st.button("Submit"):
-    if model != "" and sn !="":
-        add_row(file_name, [model, sn])
-        st.success("Added to Inventory")
-    else:
-        st.error("Invalid response")
+    with st.form("serial", clear_on_submit=True):
+        sn = st.text_input("Serial Number")
+        if st.form_submit_button("Submit"):
+            if model != "" and sn !="":
+                try:
+                    add_row(file_name, [model, sn])
+                    st.success("Added to Inventory")
+                except:
+                    st.error("Serial Number Already in inventory")
+            else:
+                st.error("Invalid response")
 
 ## Remove Item From Inventory
 with st.form("Remove", clear_on_submit=True):

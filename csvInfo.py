@@ -3,16 +3,27 @@ import os
 
 def add_row(file_name, row_data):
     file_exists = os.path.isfile(file_name)
+    flag = True
     
-    with open(file_name, mode='a', newline='', encoding='utf-8') as file:
+    with open(file_name, mode='a+', newline='', encoding='utf-8') as file:
         writer = csv.writer(file)
         
         if not file_exists:
             header = ['ModelNumber', 'SerialNumber']
             writer.writerow(header)
-        
-        writer.writerow(row_data)
-        print(f"Row {row_data} added successfully.")
+        with open(file_name, mode='r', newline='', encoding='utf-8') as file:
+            reader = csv.reader(file)
+            rows = list(reader)
+            for i in rows:
+                if i[1] == row_data[1]:
+                    print(f"{i[1]} {row_data[1]}")
+                    flag = False
+
+        if flag:
+            writer.writerow(row_data)
+            print(f"Row {row_data} added successfully.")
+        else:
+            raise(Exception("Already exists"))
 
 def remove_row(file_name, serial):
     rows = []
@@ -33,7 +44,6 @@ def remove_row(file_name, serial):
                 writer = csv.writer(file)
                 writer.writerows(rows)
         except:
-            print("argg")
             raise(Exception(f"Error: Could not remove {serial} from file."))
     else:
         raise(Exception("Error: No rows to remove or invalid input."))
