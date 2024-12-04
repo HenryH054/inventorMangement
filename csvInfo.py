@@ -9,7 +9,7 @@ def add_row(file_name, row_data):
         writer = csv.writer(file)
         
         if not file_exists:
-            header = ['ModelNumber', 'SerialNumber']
+            header = ['ModelNumber', 'SerialNumber', 'CPU']
             writer.writerow(header)
         with open(file_name, mode='r', newline='', encoding='utf-8') as file:
             reader = csv.reader(file)

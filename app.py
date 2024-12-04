@@ -9,13 +9,14 @@ st.header("Add to Inventory:")
 col1, col2 = st.columns(2)
 with col1:
     model = st.text_input("Model Number")
+    cpu = st.text_input("CPU")
 with col2:
     with st.form("serial", clear_on_submit=True):
         sn = st.text_input("Serial Number")
         if st.form_submit_button("Submit"):
             if model != "" and sn !="":
                 try:
-                    add_row(file_name, [model, sn])
+                    add_row(file_name, [model, sn, cpu])
                     st.success("Added to Inventory")
                 except:
                     st.error("Serial Number Already in inventory")
